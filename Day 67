@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+int adj[MAX][MAX];
+int visited[MAX];
+int stack[MAX];
+int top = -1;
+
+void dfs(int v, int n)
+{
+    visited[v] = 1;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (adj[v][i] == 1 && !visited[i])
+            dfs(i, n);
+    }
+
+    stack[++top] = v;
+}
+
+void topoSort(int n)
+{
+    for (int i = 0; i < n; i++)
+        if (!visited[i])
+            dfs(i, n);
+
+    while (top != -1)
+        printf("%d ", stack[top--]);
+}
+
+int main()
+{
+    int n, m, u, v;
+
+    scanf("%d", &n);
+    scanf("%d", &m);
+
+    for (int i = 0; i < m; i++)
+    {
+        scanf("%d %d", &u, &v);
+        adj[u][v] = 1;
+    }
+
+    topoSort(n);
+
+    return 0;
+}
